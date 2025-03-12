@@ -2,7 +2,7 @@
 
 ## 📌 Overview
 
-This is a **Spring Boot** backend for a **waffle restaurant food ordering system** in Belgium. It supports **user authentication, menu management, order placement, order tracking, and optional payment integration**. Built with **Spring Boot, PostgreSQL/MariaDB, and JWT authentication**.
+This is a **Spring Boot** backend for a **waffle restaurant food ordering system** in Belgium. It supports **user authentication, menu management, order placement, order tracking, and optional payment integration**. Built with **Spring Boot, PostgreSQL, and JWT authentication**.
 
 ## 🚀 Features
 
@@ -16,10 +16,9 @@ This is a **Spring Boot** backend for a **waffle restaurant food ordering system
 ## 🏗️ Tech Stack
 
 - **Backend:** Spring Boot, Spring Security, JPA
-- **Database:** PostgreSQL/MariaDB - To be decided
+- **Database:** PostgreSQL
 - **Authentication:** JWT (JSON Web Tokens)
-- **API Documentation:** Swagger
-- **Deployment:** (Heroku / AWS - To be decided)
+- **Deployment:** (Heroku)
 
 ## 📜 Database Schema
 
@@ -102,7 +101,7 @@ cd waffle-ordering-backend
 
 ### 2️⃣ Configure Database
 
-- Create a **PostgreSQL/MariaDB** database
+- Create a **PostgreSQL** database
 - Update ``
 
 ```properties
@@ -116,18 +115,6 @@ spring.datasource.password=your_password
 ```sh
 mvn spring-boot:run
 ```
-
-### 4️⃣ Test the APIs
-
-- Open `http://localhost:8080/swagger-ui.html` to explore API docs
-
-## 📌 Future Enhancements
-
-✅ Real-time Order Tracking (WebSockets) ✅ Google Maps API Integration ✅ Full Payment Gateway Support ✅ Mobile App Integration
-
-## 📝 License
-
-This project is open-source under the **MIT License**.
 
 ---
 
