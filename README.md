@@ -15,11 +15,11 @@ This is a **Spring Boot** backend for a **waffle restaurant food ordering system
 
 ## 🏗️ Tech Stack
 
-- **Backend:** Spring Boot, Spring Security, JPA, Hibernate
-- **Database:** PostgreSQL/MariaDB
+- **Backend:** Spring Boot, Spring Security, JPA
+- **Database:** PostgreSQL/MariaDB - To be decided
 - **Authentication:** JWT (JSON Web Tokens)
 - **API Documentation:** Swagger
-- **Deployment:** (Heroku, Railway, AWS - Optional)
+- **Deployment:** (Heroku / AWS - To be decided)
 
 ## 📜 Database Schema
 
