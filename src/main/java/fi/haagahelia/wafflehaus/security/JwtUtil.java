@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component; //auto-create a bean and make i
 
 import java.util.Date;
 
-//inject an instance of this class
-
 @Component
 public class JwtUtil {
     private final String SECRET = "brussels-liege-waffle-1711";
