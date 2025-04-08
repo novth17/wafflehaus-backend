@@ -1,6 +1,7 @@
 package fi.haagahelia.wafflehaus.controller;
 
 import fi.haagahelia.wafflehaus.model.MenuItem; //waffle item model
+import fi.haagahelia.wafflehaus.repository.MenuItemRepository;
 import fi.haagahelia.wafflehaus.service.MenuService; //business logic
 import org.springframework.beans.factory.annotation.Autowired; //inject service to controller
 import org.springframework.http.ResponseEntity; // HTTP responses
@@ -21,11 +22,15 @@ public class MenuController {
 
     @Autowired
     private MenuService menuService;
+    private MenuItemRepository menuItemRepository;
 
-    @GetMapping
-    public List<MenuItem> getAllMenuItems() {
-        return menuService.getAll();
-    }
+     // Allow everyone to view individual menu items by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuItem> getItemByID(@PathVariable Long id) {
+        return menuService.getById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+        }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
