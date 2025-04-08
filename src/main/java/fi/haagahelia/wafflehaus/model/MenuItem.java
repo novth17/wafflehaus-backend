@@ -18,13 +18,17 @@ public class MenuItem {
     private String name;
     private String description;
     private double price;
-    private String category;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MenuCategory category;
+    
     private String imageURL;
-
+    
     public MenuItem() {}
 
     //constructor allows seeding without manually passing ID
-    public MenuItem(String name, String description, double price, String category, String imageURL) {
+    public MenuItem(String name, String description, double price, MenuCategory category, String imageURL) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -32,7 +36,7 @@ public class MenuItem {
         this.imageURL = imageURL;
     }
 
-    public MenuItem(Long id, String name, String description, double price, String category, String imageURL) {
+    public MenuItem(Long id, String name, String description, double price, MenuCategory category, String imageURL) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -73,11 +77,11 @@ public class MenuItem {
         this.price = price;
     }
 
-    public String getCategory() {
+    public MenuCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(MenuCategory category) {
         this.category = category;
     }
 
