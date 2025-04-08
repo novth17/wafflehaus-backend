@@ -5,6 +5,8 @@ import io.jsonwebtoken.SignatureAlgorithm; // how JWT is signed
 import io.jsonwebtoken.Claims; //the data inside the token object
 import org.springframework.stereotype.Component; //auto-create a bean and make it injectable anywhere with @Autowired.
 
+import fi.haagahelia.wafflehaus.model.Role;
+
 import java.util.Date;
 
 @Component
@@ -13,9 +15,10 @@ public class JwtUtil {
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
      // Need to create a JWT from email
-     public String generateToken(String email) {
+     public String generateToken(String email, Role role) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
@@ -31,7 +34,13 @@ public class JwtUtil {
     public boolean isTokenValid(String token) {
         return getClaims(token).getExpiration().after(new Date());
     }
-
+    //expose claims
+    public Claims getAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+    }
     // helper function to read JWT data
     private Claims getClaims(String token) {
         return Jwts.parser()
