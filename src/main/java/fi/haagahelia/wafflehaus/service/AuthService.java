@@ -44,7 +44,7 @@ public class AuthService {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
         return new AuthResponse(token, user.getRole(), user.getName());
     }
     // LOGIN
@@ -55,7 +55,7 @@ public class AuthService {
         if (!isPasswordCorrect) {
             throw new RuntimeException("Invalid email or password");
         }
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
         return new AuthResponse(token, user.getRole(), user.getName());
     }
 }
