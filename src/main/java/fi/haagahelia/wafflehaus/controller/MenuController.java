@@ -1,5 +1,6 @@
 package fi.haagahelia.wafflehaus.controller;
 
+import fi.haagahelia.wafflehaus.model.MenuCategory;
 import fi.haagahelia.wafflehaus.model.MenuItem; //waffle item model
 import fi.haagahelia.wafflehaus.service.MenuService; //business logic
 
@@ -24,7 +25,10 @@ public class MenuController {
 
     // Public endpoint for get all menu items
     @GetMapping
-    public ResponseEntity<List<MenuItem>> getAllItems() {
+    public ResponseEntity<List<MenuItem>> getAllItems(@RequestParam(required = false) MenuCategory category) {
+        if (category != null){
+            return ResponseEntity.ok(menuService.getByCategory(category));
+        }
         return ResponseEntity.ok(menuService.getAll());
     }
 

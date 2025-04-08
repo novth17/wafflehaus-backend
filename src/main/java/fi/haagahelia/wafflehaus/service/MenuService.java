@@ -1,5 +1,6 @@
 package fi.haagahelia.wafflehaus.service;
 
+import fi.haagahelia.wafflehaus.model.MenuCategory;
 import fi.haagahelia.wafflehaus.model.MenuItem;
 import fi.haagahelia.wafflehaus.repository.MenuItemRepository;
 
@@ -24,6 +25,10 @@ public class MenuService {
     public List<MenuItem> getAll() {
         return menuRepo.findAll();
     }
+    public List<MenuItem> getByCategory(MenuCategory category) {
+        return menuRepo.findByCategory(category);
+    }
+
     public MenuItem create(MenuItem item) {
         return menuRepo.save(item);
     }
