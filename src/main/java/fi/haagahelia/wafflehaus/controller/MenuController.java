@@ -23,7 +23,7 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    // Public endpoint for get all menu items
+    // Public endpoint for get all menu items, if has category as param, get category and show it!
     @GetMapping
     public ResponseEntity<List<MenuItem>> getAllItems(@RequestParam(required = false) MenuCategory category) {
         if (category != null){
