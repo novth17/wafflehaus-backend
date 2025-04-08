@@ -45,8 +45,7 @@ public class AuthService {
         userRepository.save(user);
 
         String token = jwtUtil.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name(), user.getName());
-        //.name() converts the enum Role.ADMIN or Role.CUSTOMER into "ADMIN" or "CUSTOMER" (a string).
+        return new AuthResponse(token, user.getRole(), user.getName());
     }
     // LOGIN
     public AuthResponse login(AuthRequest request) {
@@ -57,6 +56,6 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password");
         }
         String token = jwtUtil.generateToken(user.getEmail());
-        return new AuthResponse(token, user.getRole().name(), user.getName());
+        return new AuthResponse(token, user.getRole(), user.getName());
     }
 }

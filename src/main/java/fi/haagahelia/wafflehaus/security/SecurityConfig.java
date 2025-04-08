@@ -2,6 +2,7 @@ package fi.haagahelia.wafflehaus.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,6 +20,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Allow register/login without login
+                .requestMatchers(HttpMethod.GET, "api/menu").permitAll()
                 .anyRequest().authenticated()               // Require login for everything else
             )
             .formLogin(form -> form.disable())              // Disable Spring’s default login page
