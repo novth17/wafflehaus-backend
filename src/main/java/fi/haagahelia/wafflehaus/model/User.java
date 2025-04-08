@@ -3,6 +3,8 @@ package fi.haagahelia.wafflehaus.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -26,8 +28,10 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String address;
 
+    //tell JPA (Java Persistence API) to save Enum as name instead of number 0 1 (ADMIN, CUSTOMER)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role = "CUSTOMER";
+    private Role role = Role.CUSTOMER;
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -35,7 +39,7 @@ public class User {
     public User() {}
 
     public User(Long id, String name, String email, String password, String phone,
-                String address, String role, LocalDateTime createdAt) {
+                String address, Role role, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -94,11 +98,11 @@ public class User {
         this.address = address;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
