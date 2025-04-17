@@ -24,7 +24,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll() // Allow register/login without login
-                .requestMatchers(HttpMethod.GET, "/api/menu").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/menu/**").permitAll()
                 .anyRequest().authenticated()               // Require login for everything else
             )
             .formLogin(form -> form.disable())              // Disable Spring’s default login page

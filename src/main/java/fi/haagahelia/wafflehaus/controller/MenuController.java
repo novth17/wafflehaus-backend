@@ -1,14 +1,15 @@
 package fi.haagahelia.wafflehaus.controller;
 
+import fi.haagahelia.wafflehaus.model.MenuCategory;
 import fi.haagahelia.wafflehaus.model.MenuItem; //waffle item model
 import fi.haagahelia.wafflehaus.service.MenuService; //business logic
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired; //inject service to controller
 import org.springframework.http.ResponseEntity; // HTTP responses
 import org.springframework.security.access.prepost.PreAuthorize; //secure controller method for admin
 import org.springframework.web.bind.annotation.*; // @GetMapping, @PostMapping, etc. @RequestBody, @PathVariable
-
-import java.util.List;
-
 /**
  * REST controller for menu-related API endpoints.
  * Provides endpoints to get, add, and delete menu items.
@@ -22,10 +23,22 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    // Public endpoint for get all menu items, if has category as param, get category and show it!
     @GetMapping
-    public List<MenuItem> getAllMenuItems() {
-        return menuService.getAll();
+    public ResponseEntity<List<MenuItem>> getAllItems(@RequestParam(required = false) MenuCategory category) {
+        if (category != null){
+            return ResponseEntity.ok(menuService.getByCategory(category));
+        }
+        return ResponseEntity.ok(menuService.getAll());
     }
+
+     // Allow everyone to view individual menu items by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<MenuItem> getItemByID(@PathVariable Long id) {
+        return menuService.getById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+        }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
