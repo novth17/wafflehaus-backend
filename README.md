@@ -2,27 +2,24 @@
 
 ## 📌 Overview
 
-This is a **Spring Boot** backend for a **waffle restaurant food ordering system** in Belgium. It supports **user authentication, menu management, order placement, order tracking, and optional payment integration**. Built with **Spring Boot, PostgreSQL, and JWT authentication**.
+This is a **Spring Boot** backend for a **waffle restaurant food ordering system** in Belgium. It supports **user authentication, menu management, order placement, and order tracking**. Built with **Spring Boot, PostgreSQL, and JWT authentication**.
 
 ## 🚀 Features
 
 - **User Authentication:** Register/Login using JWT
-- **Menu Management:** Admins can add/edit/remove waffles, toppings, and drinks
-- **Order Placement:** Customers can place orders with customizations
-- **Order Tracking:** Order statuses: *Placed → In Progress → Ready → Delivered*
-- **Payment Integration (Optional):** Supports Stripe/PayPal integration
-- **Google Maps API (Optional):** Show restaurant location for pickup orders
+- **Menu Management:** Admins can add/delete menu items
+- **Order Placement:** Customers can place waffle orders
+- **Order Tracking:** Admins can update order statuses (e.g. READY, COMPLETED)
 
 ## 🏗️ Tech Stack
 
 - **Backend:** Spring Boot, Spring Security, JPA
 - **Database:** PostgreSQL
 - **Authentication:** JWT (JSON Web Tokens)
-- **Deployment:** (Heroku)
 
 ## 📜 Database Schema
 
-### 1️⃣ Users Table
+### Users Table
 
 ```sql
 CREATE TABLE users (
@@ -37,7 +34,7 @@ CREATE TABLE users (
 );
 ```
 
-### 2️⃣ Menu Items Table
+### Menu Items Table
 
 ```sql
 CREATE TABLE menu_items (
@@ -45,22 +42,29 @@ CREATE TABLE menu_items (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
-    category VARCHAR(100) CHECK (category IN ('WAFFLE', 'TOPPING', 'DRINK')),
-    available BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    category VARCHAR(100),
+    image_url TEXT
 );
 ```
 
-### 3️⃣ Orders Table
+### Orders & Order Items
 
 ```sql
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    customer_id INT REFERENCES users(id) ON DELETE CASCADE,
     total_price DECIMAL(10,2) NOT NULL,
-    status VARCHAR(50) CHECK (status IN ('PLACED', 'IN_PROGRESS', 'READY', 'DELIVERED', 'CANCELLED')) DEFAULT 'PLACED',
-    payment_status VARCHAR(50) CHECK (payment_status IN ('PENDING', 'PAID', 'FAILED')) DEFAULT 'PENDING',
+    status VARCHAR(50) CHECK (status IN ('RECEIVED', 'PREPARING', 'READY', 'COMPLETED', 'CANCELLED')) DEFAULT 'RECEIVED',
+    note TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(id) ON DELETE CASCADE,
+    menu_item_id INT REFERENCES menu_items(id),
+    quantity INT NOT NULL,
+    price_at_order_time DECIMAL(10,2) NOT NULL
 );
 ```
 
@@ -79,30 +83,30 @@ CREATE TABLE orders (
 | ------ | ---------------- | ------------------------- |
 | GET    | `/api/menu`      | Get all menu items        |
 | POST   | `/api/menu`      | Add new menu item (Admin) |
-| PUT    | `/api/menu/{id}` | Update menu item (Admin)  |
 | DELETE | `/api/menu/{id}` | Delete menu item (Admin)  |
 
 ### 🛍️ Orders
 
-| Method | Endpoint                  | Description                 |
-| ------ | ------------------------- | --------------------------- |
-| POST   | `/api/orders`             | Place an order              |
-| GET    | `/api/orders/{id}`        | Get order details           |
-| PUT    | `/api/orders/{id}/status` | Update order status (Admin) |
+| Method | Endpoint                  | Description                  |
+| ------ | ------------------------- | ---------------------------- |
+| POST   | `/api/orders`             | Place an order               |
+| GET    | `/api/orders/my`          | View your order history      |
+| GET    | `/api/orders`             | View all orders (Admin only) |
+| PUT    | `/api/orders/{id}/status` | Update order status (Admin)  |
 
 ## 🚀 Setup & Installation
 
 ### 1️⃣ Clone the Repository
 
 ```sh
-git clone git@github.com:novth17/WaffleHaus-Backend.git](https://github.com/novth17/WaffleHaus-Backend.git)
-cd waffle-ordering-backend
+git clone https://github.com/novth17/wafflehaus-backend.git
+cd wafflehaus-backend
 ```
 
 ### 2️⃣ Configure Database
 
 - Create a **PostgreSQL** database
-- Update ``
+- Update your `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/waffle_db
@@ -119,4 +123,3 @@ mvn spring-boot:run
 ---
 
 🚀 **Developed with ❤️ for a Waffle Restaurant in Belgium!** 🇧🇪 🧇
-
