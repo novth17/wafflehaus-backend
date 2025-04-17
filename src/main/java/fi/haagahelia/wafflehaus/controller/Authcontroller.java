@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin
-public class AuthController {
+public class Authcontroller {
 
     @Autowired
     private AuthService authService;
