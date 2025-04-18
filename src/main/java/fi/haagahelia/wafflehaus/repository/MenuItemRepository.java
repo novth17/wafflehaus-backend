@@ -3,6 +3,7 @@ import fi.haagahelia.wafflehaus.model.MenuCategory;
 import fi.haagahelia.wafflehaus.model.MenuItem;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -19,4 +20,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
     List<MenuItem> findByCategory(MenuCategory category);
+    Optional<MenuItem> findByName(String name);
 }
